@@ -99,7 +99,7 @@ class _Slide extends StatelessWidget {
                             child: CircularProgressIndicator(strokeWidth: 2)));
                   }
                   return GestureDetector(
-                      onTap: () => context.push('/movie/${movie.id}'),
+                      onTap: () => context.go('/movie/${movie.id}'),
                       child: FadeIn(child: child));
                 },
               ),
@@ -126,7 +126,7 @@ class _Slide extends StatelessWidget {
                 Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
                 const SizedBox(width: 3),
                 Text(
-                  '${movie.voteAverage}',
+                  HumanFormats.number(movie.voteAverage,1),
                   style: textStyle.bodyMedium
                       ?.copyWith(color: Colors.yellow.shade800),
                 ),
