@@ -1,31 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:testcinema/domain/entities/movie.dart';
+import 'package:testcinema/presentation/delegates/search_movie_delegate.dart';
+import 'package:testcinema/presentation/providers/providers.dart';
 
-class CustomAppbar extends StatelessWidget {
+class CustomAppbar extends ConsumerWidget {
   const CustomAppbar({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colors = Theme.of(context).colorScheme;
     final titleStyle = Theme.of(context).textTheme.titleMedium;
 
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric( horizontal: 10 ),
         child: SizedBox(
           width: double.infinity,
           child: Row(
             children: [
-              Icon(Icons.confirmation_number_outlined, color: colors.primary),
-              const SizedBox(width: 5),
-              Text('Crispetapedia',style: titleStyle),
+              Icon( Icons.confirmation_number_outlined, color: colors.primary ),
+              const SizedBox( width: 5 ),
+              Text('CrispetaMark', style: titleStyle ),
+      
               const Spacer(),
-              IconButton(onPressed: (){},
-               icon: const Icon(Icons.search_outlined))
+      
+              IconButton(onPressed: () {
+
+                final searchedMovies = ref.read( searchedMoviesProvider );
+                final searchQuery = ref.read(searchQueryProvider);
+                
+                showSearch<Movie?>(
+                  query: searchQuery,
+                  context: context, 
+                  delegate: SearchMovieDelegate(
+                    initialMovies: searchedMovies,
+                    searchMovies: ref.read( searchedMoviesProvider.notifier ).searchMoviesByQuery
+                  )
+                ).then((movie) {
+                  if ( movie == null ) return;
+
+                  context.go('/movie/${ movie.id }');
+                });
+                
+
+              }, 
+              icon: const Icon(Icons.search)
+              )
             ],
           ),
         ),
-      ),
+      )
     );
   }
 }
