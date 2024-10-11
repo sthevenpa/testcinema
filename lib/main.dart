@@ -18,7 +18,7 @@ class TestCinema extends StatelessWidget {
     return  MaterialApp.router(
       routerConfig: appRouter,
       debugShowCheckedModeBanner: false,
-      title: 'TestCinema',
+      title: 'Crispetamark',
       theme: AppTheme().getTheme()
     );
   }
