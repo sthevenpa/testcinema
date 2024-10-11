@@ -1,4 +1,7 @@
+
+
 class Movie {
+
   final bool adult;
   final String backdropPath;
   final List<String> genreIds;
